@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06070c">
+<title>Para ti ❤️ — Flores amarillas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --night: #06070c;
+    --gold: #f3c34f;
+    --amber: #f29a1f;
+    --cream: #f6edd8;
+    --muted: rgba(246, 237, 216, .62);
+    --serif: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+    --sans: 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    color: var(--cream);
+    font-family: var(--sans);
+    background:
+      radial-gradient(120% 60% at 50% 112%, rgba(242, 154, 31, .24), transparent 62%),
+      radial-gradient(90% 55% at 50% -5%, #151b38 0%, transparent 70%),
+      linear-gradient(#070811, #0a0d1a 55%, #0c0a10);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  #scene { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+
+  /* ───────── Pantalla de inicio ───────── */
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 26px;
+    text-align: center;
+    transition: opacity 1.2s ease, visibility 0s 1.2s;
+  }
+  #intro.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  .seed {
+    position: relative;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff1b8, var(--amber));
+    box-shadow: 0 0 22px 5px rgba(243, 195, 79, .55);
+  }
+  .seed::before, .seed::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 1px solid rgba(243, 195, 79, .55);
+    animation: ring 3.4s ease-out infinite;
+  }
+  .seed::after { animation-delay: 1.7s; }
+  @keyframes ring { from { transform: scale(1); opacity: .8; } to { transform: scale(8); opacity: 0; } }
+
+  .intro-title {
+    font: italic 500 clamp(1.6rem, 5.5vw, 2.2rem)/1.2 var(--serif);
+    color: var(--gold);
+    text-shadow: 0 0 28px rgba(243, 195, 79, .4);
+  }
+  .intro-hint { font: 300 .85rem/1.4 var(--sans); color: var(--muted); letter-spacing: .03em; margin-top: -14px; }
+
+
+  /* Edición especial: detalles discretos para móvil */
+  .tiny-kicker {
+    margin-bottom: 9px;
+    font: 400 .62rem/1 var(--sans);
+    letter-spacing: .24em;
+    color: rgba(246,237,216,.45);
+  }
+
+  .card {
+    background:
+      radial-gradient(90% 100% at 50% 0%, rgba(243,195,79,.10), transparent 55%),
+      linear-gradient(160deg, rgba(18,21,38,.78), rgba(7,9,18,.72));
+    border: 1px solid rgba(243,195,79,.24);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.64),
+      0 0 45px rgba(243,170,35,.07),
+      inset 0 1px 0 rgba(255,255,255,.07);
+  }
+
+  .card::after {
+    content: "";
+    position: absolute;
+    left: 12%; right: 12%; bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(243,195,79,.45), transparent);
+    opacity: .7;
+  }
+
+  .card h1 {
+    font-size: clamp(2.8rem, 10vw, 3.9rem);
+    letter-spacing: .01em;
+  }
+
+  .lead {
+    max-width: 31ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .body {
+    font: italic 500 clamp(1.35rem, 4.5vw, 1.65rem)/1.2 var(--serif);
+    color: #f8e6b8;
+    margin-top: .35em;
+  }
+
+  .sign {
+    margin-top: 1.35em;
+  }
+
+  .play-btn {
+    position: relative;
+  }
+
+  .is-playing .play-btn::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid rgba(243,195,79,.35);
+    border-radius: 50%;
+    animation: play-ring 2.2s ease-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes play-ring {
+    0% { opacity: .55; transform: scale(.9); }
+    75%, 100% { opacity: 0; transform: scale(1.28); }
+  }
+
+  #scene { will-change: transform; }
+
+  @media (max-width: 520px) {
+    .card {
+      width: 89vw;
+      padding: 24px 21px 23px;
+      border-radius: 24px;
+    }
+
+    .tiny-kicker { font-size: .57rem; letter-spacing: .2em; }
+    .lead { font-size: 1.14rem; line-height: 1.36; }
+    .body { font-size: 1.38rem; }
+    .sign { font-size: 1.15rem; }
+
+    .player {
+      width: min(88vw, 380px);
+      padding: 10px 11px 7px;
+      border-radius: 20px;
+    }
+
+    .disc { width: 40px; height: 40px; }
+    .play-btn { width: 42px; height: 42px; }
+    .icon-btn { width: 34px; height: 34px; }
+    .timeline { gap: 7px; font-size: .66rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-playing .play-btn::after { animation: none; }
+  }
+
+  /* ───────── Tarjeta del mensaje ───────── */
+  .card {
+    position: absolute;
+    z-index: 10;
+    top: calc(var(--safe-t) + clamp(14px, 4.5vh, 44px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(92vw, 460px);
+    padding: clamp(22px, 4vh, 36px) clamp(22px, 6vw, 34px);
+    text-align: center;
+    border-radius: 28px;
+    background: linear-gradient(160deg, rgba(24, 28, 52, .66), rgba(10, 12, 24, .55));
+    border: 1px solid rgba(243, 195, 79, .2);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .07);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    backdrop-filter: blur(14px) saturate(120%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.6s ease .2s;
+  }
+  body.is-live .card { opacity: 1; pointer-events: auto; }
+
+  .card h1 {
+    font: italic 500 clamp(2.6rem, 8vh, 3.6rem)/1.05 var(--serif);
+    color: var(--gold);
+    text-shadow: 0 0 32px rgba(243, 195, 79, .45);
+    margin-bottom: .3em;
+  }
+  .lead {
+    font: italic 400 clamp(1.15rem, 3.2vh, 1.5rem)/1.4 var(--serif);
+    color: #fbf3df;
+    margin-bottom: .8em;
+    text-wrap: balance;
+  }
+  .lead em { font-style: italic; color: var(--gold); }
+  .body {
+    font: 300 clamp(.86rem, 2.2vh, .98rem)/1.75 var(--sans);
+    color: rgba(246, 237, 216, .78);
+    max-width: 38ch;
+    margin: 0 auto;
+    text-wrap: pretty;
+  }
+  .sign {
+    margin-top: 1.2em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(243, 195, 79, .18);
+    font: italic 500 clamp(1.05rem, 2.8vh, 1.3rem)/1.3 var(--serif);
+    color: var(--gold);
+  }
+
+  .reveal { opacity: 0; filter: blur(6px); }
+  body.is-live .reveal {
+    opacity: 1;
+    filter: none;
+    transition: opacity 1.5s ease var(--d, 0s), filter 1.5s ease var(--d, 0s);
+  }
+
+  /* ───────── Reproductor ───────── */
+  .player {
+    position: absolute;
+    z-index: 12;
+    left: 50%;
+    bottom: calc(var(--safe-b) + 14px);
+    transform: translateX(-50%) translateY(16px);
+    width: min(88vw, 390px);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "disc meta ctl" "time time time";
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 6px;
+    padding: 10px 12px 8px;
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(26, 30, 54, .72), rgba(10, 12, 24, .68));
+    border: 1px solid rgba(243, 195, 79, .2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .07);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    backdrop-filter: blur(16px) saturate(120%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s ease .6s, transform 1.2s ease .6s, visibility 0s .6s;
+  }
+  body.is-started .player { opacity: 1; visibility: visible; transform: translateX(-50%); }
+
+  /* Disco con forma de girasol */
+  .disc {
+    grid-area: disc;
+    position: relative;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: repeating-conic-gradient(#f7b801 0 10deg, #e08600 10deg 20deg);
+    box-shadow: 0 0 0 1px rgba(255, 220, 120, .3), 0 6px 18px rgba(0, 0, 0, .5);
+    animation: spin 18s linear infinite;
+    animation-play-state: paused;
+  }
+  .disc::after {
+    content: "";
+    position: absolute;
+    inset: 27%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #5a3413, #1c0e05);
+  }
+  .is-playing .disc { animation-play-state: running; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .meta { grid-area: meta; min-width: 0; }
+  .title {
+    font: italic 500 1.15rem/1.2 var(--serif);
+    color: var(--cream);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .artist {
+    font: 300 .74rem/1.4 var(--sans);
+    color: var(--muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .controls { grid-area: ctl; display: flex; align-items: center; gap: 2px; }
+  .icon-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    transition: background .2s;
+  }
+  .icon-btn:hover { background: rgba(255, 255, 255, .08); }
+  .icon-btn svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+  .icon-btn.small { width: 32px; height: 32px; }
+  .icon-btn.small svg { width: 18px; height: 18px; }
+
+  .play-btn {
+    width: 46px; height: 46px;
+    margin: 0 2px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: linear-gradient(145deg, #ffd35e, #f0a21b);
+    color: #1c1105;
+    box-shadow: 0 6px 20px rgba(243, 160, 30, .35);
+    transition: transform .2s;
+  }
+  .play-btn:hover { transform: scale(1.05); }
+  .play-btn:active { transform: scale(.95); }
+  .play-btn svg { width: 22px; height: 22px; fill: currentColor; display: block; }
+  .play-btn .i-pause, .i-off { display: none !important; }
+  .is-playing .play-btn .i-play { display: none; }
+  .is-playing .play-btn .i-pause { display: block !important; }
+  .is-muted .i-on { display: none; }
+  .is-muted .i-off { display: block !important; }
+
+  .timeline {
+    grid-area: time;
+    display: flex; align-items: center; gap: 10px;
+    font-size: .72rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .timeline span { min-width: 2.4em; }
+  .timeline span:nth-of-type(2) { text-align: right; }
+
+  .seek {
+    flex: 1; min-width: 0;
+    height: 20px;
+    background: transparent;
+    -webkit-appearance: none; appearance: none;
+    cursor: pointer;
+  }
+  .seek::-webkit-slider-runnable-track {
+    height: 4px; border-radius: 4px;
+    background: linear-gradient(to right, var(--gold) var(--p, 0%), rgba(255, 255, 255, .15) var(--p, 0%));
+  }
+  .seek::-moz-range-track { height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .15); }
+  .seek::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--gold); }
+  .seek::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 12px; height: 12px; margin-top: -4px;
+    border-radius: 50%; border: 0;
+    background: #fff4d6;
+    box-shadow: 0 0 0 4px rgba(243, 195, 79, .22);
+  }
+  .seek::-moz-range-thumb {
+    width: 12px; height: 12px;
+    border-radius: 50%; border: 0;
+    background: #fff4d6;
+    box-shadow: 0 0 0 4px rgba(243, 195, 79, .22);
+  }
+  .seek:disabled { cursor: default; }
+  .seek:disabled::-webkit-slider-thumb { opacity: 0; }
+  .seek:disabled::-moz-range-thumb { opacity: 0; }
+
+  /* Pantallas bajas en horizontal: mensaje a la izquierda, flores a la derecha */
+  @media (max-height: 520px) and (orientation: landscape) {
+    .card { left: 4vw; top: 50%; transform: translateY(-50%); width: min(46vw, 440px); padding: 20px 24px; }
+    .card h1 { font-size: 2.3rem; }
+    .player { left: 73%; width: min(46vw, 420px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .disc, .seed::before, .seed::after { animation: none; }
+    .reveal { filter: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<button id="intro" type="button" aria-label="Abrir sorpresa">
+  <span class="seed" aria-hidden="true"></span>
+  <span class="intro-title">Tengo algo para ti</span>
+  <span class="intro-hint">Toca la flor ✨</span>
+</button>
+
+<main class="card" id="card">
+  <div class="tiny-kicker reveal" style="--d:0s">PARA ALGUIEN MUY ESPECIAL</div>
+  <h1 class="reveal" style="--d:.2s">Para ti mi amor</h1>
+  <p class="lead reveal" style="--d:.65s">Solo quería regalarte un poquito de la luz que tú le das a mis días.</p>
+  <p class="body reveal" style="--d:1.15s">Te quiero mucho. 🌻 Rosa Luz</p>
+  <p class="sign reveal" style="--d:1.7s">Feliz día de las flores amarillas ✨</p>
+</main>
+
+<section class="player" id="player" aria-label="Reproductor de música">
+  <div class="disc" aria-hidden="true"></div>
+
+  <div class="meta">
+    <div class="title" id="trTitle"></div>
+    <div class="artist" id="trArtist"></div>
+  </div>
+
+  <div class="controls">
+<button class="play-btn" id="btnPlay" type="button" aria-label="Reproducir">
+      <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+    </button>
+</div>
+
+  <div class="timeline">
+    <span id="tCur">0:00</span>
+    <input class="seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="Posición de la canción">
+    <span id="tDur">0:00</span>
+    <button class="icon-btn small" id="btnMute" type="button" aria-label="Silenciar">
+      <svg class="i-on" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M15.5 9a4.5 4.5 0 010 6M18 6.5a8 8 0 010 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <svg class="i-off" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</section>
+
+<script>
+(() => {
+'use strict';
+
+/* ══════════════════════════════════════════════════════════
+   CONFIGURACIÓN — aquí puedes personalizar la música
+   ══════════════════════════════════════════════════════════
+   • Una pista SIN "src" es la melodía ambiental que genera la propia página
+     (funciona sin internet y sin subir ningún archivo).
+   • Para usar TU canción, añade una pista con "src" (MP3 directo).
+     Dropbox: pega el enlace de compartir y cambia dl=0 por raw=1.
+   • La primera pista de la lista es la que suena al empezar.
+   • Si pones varias, aparecen los botones anterior / siguiente.
+   ══════════════════════════════════════════════════════════ */
+const CONFIG = {
+  volume: 0.7,
+  tracks: [
+    // { title: 'Nuestra canción', artist: 'Nombre del artista', src: 'https://www.dropbox.com/s/XXXX/cancion.mp3?raw=1' },
+    { title: 'Jardín de medianoche', artist: 'Melodía creada en vivo, solo para ti' }
+  ]
+};
+
+/* ───────── Utilidades ───────── */
+const $ = (s) => document.querySelector(s);
+const TAU = Math.PI * 2;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const rand = (a, b) => a + Math.random() * (b - a);
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+const easeOutBack = (t) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ══════════════════════════════════════════════════════════
+   MOTOR DE MÚSICA AMBIENTAL (Web Audio)
+   Progresión D – Bm – G – A con pad suave, bajo y notas
+   tipo caja de música que nunca se repiten igual.
+   ══════════════════════════════════════════════════════════ */
+const CHORDS = [
+  { bass: 38, pad: [57, 62, 66, 69], pcs: [2, 6, 9] },      // D
+  { bass: 47, pad: [59, 62, 66, 69], pcs: [11, 2, 6, 9] },  // Bm7
+  { bass: 43, pad: [59, 62, 67, 71], pcs: [7, 11, 2] },     // G
+  { bass: 45, pad: [57, 61, 64, 69], pcs: [9, 1, 4] }       // A
+];
+const PENTA = [2, 4, 6, 9, 11]; // re mayor pentatónica
+
+class Ambient {
+  constructor() {
+    this.ctx = null;
+    this.level = CONFIG.volume;
+    this.active = false;
+    this.timer = 0;
+    this.step = 0.46;   // duración de una corchea (segundos)
+    this.i = 0;
+    this.next = 0;
+    this.t0 = 0;
+    this.last = 78;
+  }
+
+  _build() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const c = this.ctx = new AC();
+
+    this.master = c.createGain();
+    this.master.gain.value = 0;
+    const comp = c.createDynamicsCompressor();
+    comp.threshold.value = -18; comp.ratio.value = 3; comp.attack.value = 0.02; comp.release.value = 0.3;
+    this.master.connect(comp); comp.connect(c.destination);
+
+    // Reverb generada (sin archivos externos)
+    this.verb = c.createConvolver();
+    this.verb.buffer = this._impulse(3.2, 2.6);
+    const wet = c.createGain(); wet.gain.value = 0.7;
+    this.verb.connect(wet); wet.connect(this.master);
+
+    this.dry = c.createGain(); this.dry.gain.value = 0.85; this.dry.connect(this.master);
+    this.send = c.createGain(); this.send.gain.value = 0.55; this.send.connect(this.verb);
+
+    // Eco suave
+    this.delay = c.createDelay(1.5);
+    this.delay.delayTime.value = this.step * 1.5;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200;
+    const fb = c.createGain(); fb.gain.value = 0.33;
+    const dOut = c.createGain(); dOut.gain.value = 0.5;
+    this.delay.connect(lp); lp.connect(fb); fb.connect(this.delay);
+    lp.connect(dOut); dOut.connect(this.master); dOut.connect(this.send);
+    this.delaySend = c.createGain(); this.delaySend.gain.value = 0.35; this.delaySend.connect(this.delay);
+  }
+
+  _impulse(seconds, decay) {
+    const c = this.ctx, n = Math.floor(c.sampleRate * seconds);
+    const buf = c.createBuffer(2, n, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      let lp = 0;
+      for (let i = 0; i < n; i++) {
+        lp += ((Math.random() * 2 - 1) - lp) * 0.35; // oscurece el ruido
+        d[i] = lp * Math.pow(1 - i / n, decay);
+      }
+    }
+    return buf;
+  }
+
+  setLevel(v) {
+    this.level = v;
+    if (this.master && this.active) this.master.gain.setTargetAtTime(v * 0.9, this.ctx.currentTime, 0.1);
+  }
+
+  async start() {
+    if (!this.ctx) this._build();          // síncrono: debe ocurrir dentro del gesto del usuario
+    const c = this.ctx;
+    this.active = true;
+    const resumed = c.resume();
+    const now = c.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setTargetAtTime(this.level * 0.9, now, 1.2);
+    if (!this.timer) {
+      this.t0 = now;
+      this.next = now + 0.15;
+      this.timer = setInterval(() => this._tick(), 350);
+    }
+    await resumed;
+    this._tick();
+  }
+
+  pause() {
+    if (!this.ctx || !this.active) return;
+    this.active = false;
+    const now = this.ctx.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setTargetAtTime(0, now, 0.15);
+    setTimeout(() => { if (!this.active && this.ctx.state === 'running') this.ctx.suspend(); }, 800);
+  }
+
+  elapsed() { return this.ctx ? Math.max(0, this.ctx.currentTime - this.t0) : 0; }
+  cycleProgress() { const cyc = this.step * 64; return (this.elapsed() % cyc) / cyc; }
+
+  _tick() {
+    const c = this.ctx;
+    if (!c || c.state !== 'running') return;
+    if (this.next < c.currentTime - 0.3) this.next = c.currentTime + 0.05; // re-sincroniza tras un salto
+    const horizon = c.currentTime + 1.6;
+    while (this.next < horizon) {
+      this._step(this.i, this.next);
+      this.i++;
+      this.next += this.step;
+    }
+  }
+
+  _step(i, t) {
+    const s = i % 16;
+    const ch = CHORDS[Math.floor(i / 16) % CHORDS.length];
+    if (s === 0) {
+      this._pad(t, ch.pad, this.step * 16);
+      this._bass(t, ch.bass, this.step * 16);
+    }
+    if (s % 8 === 0) this._pluck(t + 0.02, ch.pad[s === 0 ? 1 : 2], 0.09); // arpegio grave
+
+    const strong = s % 4 === 0;
+    let p = strong ? 0.8 : 0.42;
+    if (s >= 13) p *= 0.5; // respiro al final del acorde
+    if (Math.random() < p) {
+      this._pluck(t + Math.random() * 0.012, this._pick(ch), strong ? 0.16 : 0.11);
+      if (!strong && Math.random() < 0.15) this._pluck(t + this.step / 2, this._pick(ch), 0.07);
+    }
+  }
+
+  _pick(ch) {
+    const cands = [];
+    let total = 0;
+    for (let n = 69; n <= 90; n++) {
+      const pc = n % 12;
+      const chordTone = ch.pcs.includes(pc);
+      if (!chordTone && !PENTA.includes(pc)) continue;
+      const w = (chordTone ? 3.5 : 1.2) * Math.exp(-Math.abs(n - this.last) / 4.5);
+      cands.push([n, w]); total += w;
+    }
+    let r = Math.random() * total;
+    for (const [n, w] of cands) { r -= w; if (r <= 0) { this.last = n; return n; } }
+    return this.last;
+  }
+
+  _pluck(t, midi, vel) {
+    const c = this.ctx, f = mtof(midi);
+    const out = c.createGain();
+    out.gain.setValueAtTime(0.0001, t);
+    out.gain.exponentialRampToValueAtTime(vel, t + 0.008);
+    out.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
+
+    let dest = out;
+    if (c.createStereoPanner) {
+      const pan = c.createStereoPanner();
+      pan.pan.value = rand(-0.5, 0.5);
+      out.connect(pan); dest = pan;
+    }
+    dest.connect(this.dry); dest.connect(this.send); dest.connect(this.delaySend);
+
+    const partial = (type, freq, gain, decay) => {
+      const o = c.createOscillator(); o.type = type; o.frequency.value = freq;
+      const g = c.createGain();
+      g.gain.setValueAtTime(gain, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + decay);
+      o.connect(g); g.connect(out);
+      o.start(t); o.stop(t + decay + 0.1);
+    };
+    partial('sine', f, 1, 2.6);
+    partial('triangle', f * 2, 0.22, 0.7);
+    partial('sine', f * 4.01, 0.06, 0.25);
+  }
+
+  _pad(t, notes, dur) {
+    const c = this.ctx;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1100; lp.Q.value = 0.4;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.03, t + 2.4);
+    g.gain.setValueAtTime(0.03, t + dur - 0.2);
+    g.gain.linearRampToValueAtTime(0, t + dur + 2.6);
+    lp.connect(g); g.connect(this.dry); g.connect(this.send);
+    for (const n of notes) {
+      for (const det of [-7, 7]) {
+        const o = c.createOscillator();
+        o.type = 'triangle'; o.frequency.value = mtof(n); o.detune.value = det;
+        o.connect(lp); o.start(t); o.stop(t + dur + 2.8);
+      }
+    }
+  }
+
+  _bass(t, midi, dur) {
+    const c = this.ctx;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.16, t + 0.15);
+    g.gain.setValueAtTime(0.16, t + dur - 0.1);
+    g.gain.linearRampToValueAtTime(0, t + dur + 0.8);
+    g.connect(this.dry);
+    const a = c.createOscillator(); a.type = 'sine'; a.frequency.value = mtof(midi);
+    const b = c.createOscillator(); b.type = 'triangle'; b.frequency.value = mtof(midi + 12);
+    const bg = c.createGain(); bg.gain.value = 0.3;
+    a.connect(g); b.connect(bg); bg.connect(g);
+    [a, b].forEach((o) => { o.start(t); o.stop(t + dur + 0.9); });
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   REPRODUCTOR
+   ══════════════════════════════════════════════════════════ */
+const TRACKS = CONFIG.tracks.length ? CONFIG.tracks : [{ title: 'Jardín de medianoche', artist: 'Melodía creada en vivo, solo para ti' }];
+const playerEl = $('#player');
+const els = {
+  title: $('#trTitle'), artist: $('#trArtist'),
+  play: $('#btnPlay'), mute: $('#btnMute'),
+  seek: $('#seek'), cur: $('#tCur'), dur: $('#tDur')
+};
+
+const audio = new Audio();
+audio.preload = 'metadata';
+const ambient = new Ambient();
+let idx = 0, playing = false, muted = false, dragging = false, ticker = 0;
+const vol = CONFIG.volume;
+
+const isAmbient = () => !TRACKS[idx].src;
+const fmt = (s) => { if (!isFinite(s)) return '0:00'; s = Math.floor(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const setP = (pct) => els.seek.style.setProperty('--p', pct + '%');
+
+function applyVolume() {
+  audio.volume = vol;
+  audio.muted = muted;
+  ambient.setLevel(muted ? 0 : vol);
+}
+
+function renderTrack() {
+  const tr = TRACKS[idx];
+  els.title.textContent = tr.title;
+  els.artist.textContent = tr.artist || '';
+  els.seek.disabled = isAmbient();
+  els.seek.value = 0; setP(0);
+  els.cur.textContent = '0:00';
+  els.dur.textContent = isAmbient() ? '∞' : '0:00';
+  if ('mediaSession' in navigator && window.MediaMetadata) {
+    try { navigator.mediaSession.metadata = new MediaMetadata({ title: tr.title, artist: tr.artist || '', album: 'Magia para ti' }); } catch (e) {}
+  }
+}
+
+function showNote(msg) {
+  els.artist.textContent = msg;
+  setTimeout(() => { els.artist.textContent = TRACKS[idx].artist || ''; }, 3000);
+}
+
+function updateProgress() {
+  if (isAmbient()) {
+    els.cur.textContent = fmt(ambient.elapsed());
+    setP(ambient.cycleProgress() * 100);
+    return;
+  }
+  const d = audio.duration, c = audio.currentTime;
+  els.cur.textContent = fmt(c);
+  els.dur.textContent = isFinite(d) ? fmt(d) : '0:00';
+  if (!dragging) {
+    const pr = isFinite(d) && d > 0 ? c / d : 0;
+    els.seek.value = Math.round(pr * 1000);
+    setP(pr * 100);
+  }
+}
+
+function setPlaying(v) {
+  playing = v;
+  playerEl.classList.toggle('is-playing', v);
+  els.play.setAttribute('aria-label', v ? 'Pausar' : 'Reproducir');
+  if ('mediaSession' in navigator) navigator.mediaSession.playbackState = v ? 'playing' : 'paused';
+  clearInterval(ticker);
+  if (v) { ticker = setInterval(updateProgress, 250); }
+  updateProgress();
+}
+
+async function play() {
+  try {
+    if (TRACKS[idx].src) await audio.play();
+    else await ambient.start();
+    setPlaying(true);
+  } catch (err) {
+    setPlaying(false);
+    showNote('Pulsa ▶ para escuchar');
+  }
+}
+
+function pause() {
+  audio.pause();
+  ambient.pause();
+  setPlaying(false);
+}
+
+function loadTrack(i, autoplay) {
+  idx = (i + TRACKS.length) % TRACKS.length;
+  const tr = TRACKS[idx];
+  audio.pause();
+  ambient.pause();
+  if (tr.src) {
+    if (audio.getAttribute('src') !== tr.src) audio.src = tr.src;
+    audio.loop = TRACKS.length === 1;
+    audio.currentTime = 0;
+  }
+  renderTrack();
+  if (autoplay) play(); else setPlaying(false);
+}
+
+const toggle = () => (playing ? pause() : play());
+
+els.play.addEventListener('click', toggle);
+els.mute.addEventListener('click', () => {
+  muted = !muted;
+  playerEl.classList.toggle('is-muted', muted);
+  els.mute.setAttribute('aria-label', muted ? 'Activar sonido' : 'Silenciar');
+  applyVolume();
+});
+
+els.seek.addEventListener('pointerdown', () => { dragging = true; });
+['pointerup', 'pointercancel', 'change'].forEach((ev) => els.seek.addEventListener(ev, () => { dragging = false; }));
+els.seek.addEventListener('input', () => {
+  if (isAmbient()) return;
+  const d = audio.duration;
+  if (!isFinite(d)) return;
+  audio.currentTime = (els.seek.value / 1000) * d;
+  setP(els.seek.value / 10);
+  els.cur.textContent = fmt(audio.currentTime);
+});
+
+audio.addEventListener('timeupdate', () => { if (!isAmbient()) updateProgress(); });
+audio.addEventListener('loadedmetadata', () => { if (!isAmbient()) updateProgress(); });
+audio.addEventListener('ended', () => {
+  if (!isAmbient()) {
+    audio.currentTime = 0;
+    play();
+  } else {
+    setPlaying(false);
+  }
+});
+audio.addEventListener('play', () => { if (!isAmbient()) setPlaying(true); });
+audio.addEventListener('pause', () => { if (!isAmbient() && !audio.ended) setPlaying(false); });
+audio.addEventListener('error', () => {
+  if (isAmbient()) return;
+  setPlaying(false);
+  showNote('No se pudo cargar esta canción');
+});
+
+if ('mediaSession' in navigator) {
+  const ms = navigator.mediaSession;
+  const set = (a, f) => { try { ms.setActionHandler(a, f); } catch (e) {} };
+  set('play', play);
+  set('pause', pause);
+}
+
+applyVolume();
+renderTrack();
+loadTrack(0, false);
+
+/* ══════════════════════════════════════════════════════════
+   ESCENA (canvas)
+   Optimización: los girasoles se dibujan UNA vez en canvas
+   auxiliares (sprites) y después solo se rotan y escalan.
+   ══════════════════════════════════════════════════════════ */
+const canvas = $('#scene');
+const ctx = canvas.getContext('2d');
+const cardEl = $('#card');
+let W = 0, H = 0, DPR = 1;
+let started = false, startAt = 0;
+const sprites = {};
+let stars = [], petals = [], motes = [], sparks = [];
+const MAX_SPARKS = 180;
+const ptr = { x: 0, y: 0, dirty: false };
+
+// Tres girasoles: el centro es el más grande
+const flowers = [
+  { delay: 500,  dir: 1,  phase: 1.1 },
+  { delay: 1000, dir: -1, phase: 2.4 },
+  { delay: 1500, dir: 1,  phase: 4.0 }
+].map((f) => Object.assign(f, {
+  delay: reduceMotion ? f.delay * 0.15 : f.delay,
+  dur: reduceMotion ? 700 : 3400,
+  bx: 0, hx: 0, hy: 0, R: 60
+}));
+
+/* ───────── Sprites ───────── */
+function radialSprite(size, stops) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const g = c.getContext('2d'), r = size / 2;
+  const grad = g.createRadialGradient(r, r, 0, r, r, r);
+  stops.forEach(([o, col]) => grad.addColorStop(o, col));
+  g.fillStyle = grad; g.fillRect(0, 0, size, size);
+  return c;
+}
+
+function petalSprite() {
+  const c = document.createElement('canvas');
+  c.width = 48; c.height = 80;
+  const g = c.getContext('2d');
+  g.translate(24, 76);
+  const gr = g.createLinearGradient(0, 0, 0, -72);
+  gr.addColorStop(0, '#e08a00'); gr.addColorStop(1, '#ffd54a');
+  g.fillStyle = gr;
+  g.beginPath(); g.moveTo(0, 0);
+  g.bezierCurveTo(22, -22, 20, -52, 0, -72);
+  g.bezierCurveTo(-20, -52, -22, -22, 0, 0);
+  g.fill();
+  return c;
+}
+
+sprites.glow = radialSprite(128, [[0, 'rgba(255,190,60,.5)'], [.5, 'rgba(255,150,30,.16)'], [1, 'rgba(255,140,20,0)']]);
+sprites.spark = radialSprite(48, [[0, 'rgba(255,248,210,1)'], [.25, 'rgba(255,205,80,.8)'], [1, 'rgba(255,160,30,0)']]);
+sprites.petal = petalSprite();
+
+function petalRing(g, o) {
+  const L = o.to - o.from;
+  const path = () => {
+    g.beginPath(); g.moveTo(0, -o.from);
+    g.bezierCurveTo(o.w, -o.from - L * .22, o.w * .85, -o.from - L * .72, 0, -o.to);
+    g.bezierCurveTo(-o.w * .85, -o.from - L * .72, -o.w, -o.from - L * .22, 0, -o.from);
+  };
+  g.save();
+  if (o.shadow) { g.shadowColor = 'rgba(70,25,0,.5)'; g.shadowBlur = 6 * o.k; g.shadowOffsetY = 1.5 * o.k; }
+  for (let i = 0; i < o.n; i++) {
+    g.save(); g.rotate(o.off + i * TAU / o.n);
+    const gr = g.createLinearGradient(0, -o.from, 0, -o.to);
+    gr.addColorStop(0, o.c0); gr.addColorStop(1, o.c1);
+    g.fillStyle = gr; path(); g.fill();
+    g.restore();
+  }
+  g.restore();
+  // nervadura de cada pétalo
+  g.save();
+  g.strokeStyle = 'rgba(120,50,0,.22)'; g.lineWidth = .7;
+  for (let i = 0; i < o.n; i++) {
+    g.save(); g.rotate(o.off + i * TAU / o.n);
+    g.beginPath(); g.moveTo(0, -o.from - 6); g.lineTo(0, -o.to + 14); g.stroke();
+    g.restore();
+  }
+  g.restore();
+}
+
+function seedCenter(g) {
+  const d = g.createRadialGradient(0, 0, 2, 0, 0, 31);
+  d.addColorStop(0, '#2b1608'); d.addColorStop(.7, '#4a2a10'); d.addColorStop(1, '#6b3f14');
+  g.fillStyle = d; g.beginPath(); g.arc(0, 0, 31, 0, TAU); g.fill();
+  // Semillas en espiral de Fibonacci (filotaxis)
+  for (let i = 1; i < 340; i++) {
+    const r = 1.66 * Math.sqrt(i);
+    if (r > 29.5) break;
+    const a = i * 2.399963;
+    g.fillStyle = `hsl(${24 + r * .5},58%,${13 + (r / 30) * 24 + Math.random() * 5}%)`;
+    g.beginPath(); g.arc(r * Math.cos(a), r * Math.sin(a), .9 + r * .032, 0, TAU); g.fill();
+  }
+  const h = g.createRadialGradient(-9, -11, 0, -9, -11, 26);
+  h.addColorStop(0, 'rgba(255,205,130,.16)'); h.addColorStop(1, 'rgba(255,205,130,0)');
+  g.fillStyle = h; g.beginPath(); g.arc(0, 0, 31, 0, TAU); g.fill();
+  g.strokeStyle = '#3a2009'; g.lineWidth = 1.4; g.beginPath(); g.arc(0, 0, 31, 0, TAU); g.stroke();
+}
+
+function buildFlowerSprites(Rs) {
+  const size = Rs * 2, k = Rs / 100;
+  const make = (fn) => {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const g = c.getContext('2d');
+    g.translate(Rs, Rs); g.scale(k, k);
+    fn(g);
+    return c;
+  };
+  sprites.back = make((g) => petalRing(g, { k, n: 18, off: Math.PI / 18, from: 16, to: 93, w: 15.5, c0: '#b55a00', c1: '#f5b000' }));
+  sprites.front = make((g) => petalRing(g, { k, n: 18, off: 0, from: 16, to: 83, w: 14.5, c0: '#f08c00', c1: '#ffd94d', shadow: true }));
+  sprites.center = make(seedCenter);
+  sprites.Rs = Rs;
+}
+
+/* ───────── Composición / tamaño ───────── */
+function layout() {
+  const short = W > H * 1.15 && H < 560;
+  const pr = playerEl.getBoundingClientRect();
+  const cr = cardEl.getBoundingClientRect();
+  const cx = short ? W * 0.73 : W / 2;
+  const halfW = short ? W * 0.27 : W / 2;
+  const zoneTop = short ? 12 : Math.min(cr.bottom - 22, H * 0.6);
+  const zoneBottom = pr.top + 8;
+  const zoneH = Math.max(120, zoneBottom - zoneTop);
+
+  const R = clamp(Math.min(W * 0.26, H * 0.19, zoneH / 2.3, short ? W * 0.13 : 999), 44, 165);
+  const rs = R * 0.8;
+  const y0 = zoneBottom - R * 1.35;
+  const off = Math.max(R * 0.95, Math.min(R * 1.45, halfW - rs * 0.8));
+
+  const [m, l, r] = flowers;
+  Object.assign(m, { bx: cx, hx: cx, hy: y0, R });
+  Object.assign(l, { bx: cx - off * 0.3, hx: cx - off, hy: y0 + R * 0.55, R: rs });
+  Object.assign(r, { bx: cx + off * 0.3, hx: cx + off, hy: y0 + R * 0.55, R: rs });
+
+  const Rs = Math.ceil(R * DPR * 1.05);
+  if (!sprites.Rs || Rs > sprites.Rs * 1.08 || Rs < sprites.Rs * 0.7) buildFlowerSprites(Rs);
+}
+
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = Math.round(W * DPR);
+  canvas.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+  const n = clamp(Math.round(W * H / 11500), 32, 80);
+  stars = Array.from({ length: n }, () => ({
+    x: Math.random() * W, y: Math.random() * H * 0.8,
+    s: rand(.6, 1.7), a: rand(.25, .85), sp: rand(.0006, .002), ph: rand(0, TAU)
+  }));
+  if (!petals.length && !reduceMotion) {
+    const count = W < 700 ? 14 : 24;
+    petals = Array.from({ length: count }, () => ({
+      x: rand(0, W), y: rand(-H * .3, H), s: rand(9, 19), vy: rand(.35, .9), vx: rand(-.25, .25),
+      rot: rand(0, TAU), vr: rand(-.02, .02), ph: rand(0, TAU), a: rand(.55, .95)
+    }));
+    motes = Array.from({ length: 20 }, () => ({ x: rand(0, W), y: rand(0, H), vy: -rand(.08, .3), s: rand(4, 9), ph: rand(0, TAU) }));
+  }
+  petals.forEach((p) => { if (p.x > W) p.x = rand(0, W); });
+  motes.forEach((m) => { if (m.x > W) m.x = rand(0, W); });
+  layout();
+}
+
+let resizeRaf = 0;
+window.addEventListener('resize', () => { cancelAnimationFrame(resizeRaf); resizeRaf = requestAnimationFrame(resize); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+
+/* ───────── Dibujo ───────── */
+function drawStars(t) {
+  ctx.fillStyle = '#fff3d1';
+  for (const s of stars) {
+    ctx.globalAlpha = reduceMotion ? s.a : s.a * (0.55 + 0.45 * Math.sin(t * s.sp + s.ph));
+    ctx.fillRect(s.x, s.y, s.s, s.s);
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawPetals(t, dt) {
+  for (const p of petals) {
+    p.y += p.vy * dt;
+    p.x += (p.vx + Math.sin(t * 0.001 + p.ph) * 0.4) * dt;
+    p.rot += p.vr * dt;
+    if (p.y > H + 30) { p.y = -30; p.x = rand(0, W); }
+    const c = Math.cos(p.rot), s = Math.sin(p.rot), f = Math.cos(t * 0.002 + p.ph);
+    ctx.setTransform(c * DPR, s * DPR, -s * f * DPR, c * f * DPR, p.x * DPR, p.y * DPR);
+    ctx.globalAlpha = p.a;
+    ctx.drawImage(sprites.petal, -p.s * .3, -p.s * .5, p.s * .6, p.s);
+  }
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.globalAlpha = 1;
+}
+
+function drawLeaf(x, y, ang, len, wid) {
+  ctx.save();
+  ctx.translate(x, y); ctx.rotate(ang);
+  ctx.beginPath(); ctx.moveTo(0, 0);
+  ctx.quadraticCurveTo(len * .45, -wid, len, 0);
+  ctx.quadraticCurveTo(len * .45, wid, 0, 0);
+  ctx.fillStyle = '#3a8248'; ctx.fill();
+  ctx.strokeStyle = 'rgba(20,60,30,.55)'; ctx.lineWidth = Math.max(.8, wid * .08);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(len * .9, 0); ctx.stroke();
+  ctx.restore();
+}
+
+function drawFlower(f, t) {
+  const el = t - startAt - f.delay;
+  if (el <= 0 || !sprites.back) return;
+  const p = clamp(el / f.dur, 0, 1);
+  const rise = easeOutCubic(clamp(p / 0.75, 0, 1));
+  const bloom = easeOutBack(clamp((p - 0.3) / 0.7, 0, 1));
+  const sway = reduceMotion ? 0 : Math.sin(t * 0.0006 + f.phase) * f.R * 0.06;
+
+  const hy = lerp(H + f.R * 0.6, f.hy, rise);
+  const hx = lerp(f.bx, f.hx, rise) + sway * rise;
+  const bx = f.bx, by = H + 12;
+  const cpx = bx, cpy = lerp(hy, by, 0.5);
+
+  // Tallo
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#2a6a3b';
+  ctx.lineWidth = Math.max(3, f.R * 0.075);
+  ctx.beginPath(); ctx.moveTo(bx, by); ctx.quadraticCurveTo(cpx, cpy, hx, hy); ctx.stroke();
+
+  // Hojas
+  if (rise > 0.5) {
+    const lp = easeOutCubic((rise - 0.5) / 0.5);
+    [[0.45, -1], [0.66, 1]].forEach(([tt, side]) => {
+      const u = 1 - tt;
+      const x = u * u * bx + 2 * u * tt * cpx + tt * tt * hx;
+      const y = u * u * by + 2 * u * tt * cpy + tt * tt * hy;
+      const dx = 2 * (u * (cpx - bx) + tt * (hx - cpx));
+      const dy = 2 * (u * (cpy - by) + tt * (hy - cpy));
+      drawLeaf(x, y, Math.atan2(dy, dx) + side * 0.85, f.R * 0.55 * lp, f.R * 0.16 * lp);
+    });
+  }
+
+  if (bloom <= 0.01) return;
+  const rad = f.R * bloom * (reduceMotion ? 1 : 1 + Math.sin(t * 0.0011 + f.phase) * 0.012);
+
+  ctx.save();
+  ctx.translate(hx, hy);
+  ctx.rotate((hx - f.hx) / f.R * 0.5);
+
+  // Resplandor
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.globalAlpha = 0.55 * bloom;
+  ctx.drawImage(sprites.glow, -rad * 1.9, -rad * 1.9, rad * 3.8, rad * 3.8);
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.globalAlpha = 1;
+
+  const spin = reduceMotion ? 0 : t;
+  ctx.save(); ctx.rotate(f.phase + spin * 0.00006 * f.dir);
+  ctx.drawImage(sprites.back, -rad, -rad, rad * 2, rad * 2);
+  ctx.restore();
+
+  ctx.save(); ctx.rotate(-spin * 0.00004 * f.dir);
+  ctx.drawImage(sprites.front, -rad, -rad, rad * 2, rad * 2);
+  ctx.restore();
+
+  ctx.drawImage(sprites.center, -rad, -rad, rad * 2, rad * 2);
+  ctx.restore();
+}
+
+function addSpark(x, y, speed) {
+  if (sparks.length >= MAX_SPARKS) sparks.shift();
+  const a = rand(0, TAU), v = rand(.25, 1) * speed;
+  sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: rand(.018, .034), size: rand(5, 11) });
+}
+function burst(x, y, n, speed) { for (let i = 0; i < n; i++) addSpark(x, y, speed); }
+
+function drawLights(t, dt) {
+  if (ptr.dirty) {
+    ptr.dirty = false;
+    addSpark(ptr.x + rand(-10, 10), ptr.y + rand(-10, 10), 1.6);
+    addSpark(ptr.x + rand(-10, 10), ptr.y + rand(-10, 10), 1.6);
+  }
+  ctx.globalCompositeOperation = 'lighter';
+  for (const m of motes) {
+    m.y += m.vy * dt;
+    m.x += Math.sin(t * 0.0008 + m.ph) * 0.15 * dt;
+    if (m.y < -10) { m.y = H + 10; m.x = rand(0, W); }
+    ctx.globalAlpha = Math.max(0, 0.25 + 0.3 * Math.sin(t * 0.002 + m.ph)) * (started ? 1 : .6);
+    ctx.drawImage(sprites.spark, m.x - m.s, m.y - m.s, m.s * 2, m.s * 2);
+  }
+  for (let i = sparks.length - 1; i >= 0; i--) {
+    const s = sparks[i];
+    s.x += s.vx * dt; s.y += s.vy * dt;
+    s.vy += 0.02 * dt; s.vx *= 0.985;
+    s.life -= s.decay * dt;
+    if (s.life <= 0) { sparks[i] = sparks[sparks.length - 1]; sparks.pop(); continue; }
+    const sz = s.size * (0.4 + s.life * 0.6);
+    ctx.globalAlpha = s.life;
+    ctx.drawImage(sprites.spark, s.x - sz, s.y - sz, sz * 2, sz * 2);
+  }
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+let lastT = 0;
+function frame(t) {
+  requestAnimationFrame(frame);
+  if (t - lastT < 14.5) return;               // tope ≈ 60 fps en pantallas de 120 Hz
+  const dt = Math.min(3, (t - lastT) / 16.667);
+  lastT = t;
+
+  ctx.clearRect(0, 0, W, H);
+  drawStars(t);
+  drawPetals(t, dt);
+  if (started) {
+    drawFlower(flowers[1], t);
+    drawFlower(flowers[2], t);
+    drawFlower(flowers[0], t);
+  }
+  drawLights(t, dt);
+}
+
+/* ───────── Interacción ───────── */
+function start() {
+  if (started) return;
+  started = true;
+  startAt = performance.now();
+  $('#intro').classList.add('hide');
+  document.body.classList.add('is-started');
+  setTimeout(() => {
+    document.body.classList.add('is-live');
+    requestAnimationFrame(resize);
+  }, 1050);
+  const m = flowers[0];
+  if (!reduceMotion) burst(m.hx, m.hy, 95, 5.5);
+  play(); // se ejecuta dentro del gesto del usuario para que el navegador permita el audio
+}
+$('#intro').addEventListener('click', start);
+
+window.addEventListener('pointerdown', (e) => {
+  if (!started || reduceMotion || e.target.closest('.player')) return;
+  burst(e.clientX, e.clientY, 18, 3);
+});
+window.addEventListener('pointermove', (e) => {
+  if (!started || reduceMotion || e.target.closest('.player')) return;
+  ptr.x = e.clientX; ptr.y = e.clientY; ptr.dirty = true;
+});
+
+resize();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
